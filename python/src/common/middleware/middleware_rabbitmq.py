@@ -68,7 +68,7 @@ class MessageMiddlewareExchangeRabbitMQ(MessageMiddlewareExchange):
             nack = lambda: ch.basic_nack(delivery_tag=method.delivery_tag)
             return on_message_callback(body, ack, nack)
 
-        result = channel.queue_declare(queue="")
+        result = channel.queue_declare(queue="", auto_delete=True)
         queue_name = result.method.queue
         for routing_key in self.routing_keys:
             channel.queue_bind(
